@@ -1,0 +1,50 @@
+1. docker run - Starts a new container from an image.
+   Usage: docker run -d -p host_port:container_port --name container_name image_name
+
+2. docker build - Builds Docker images from a Dockerfile.
+   Usage: docker build -t image_name:tag .
+
+3. docker images - Lists all Docker images on the host.
+   Usage: docker images
+
+4. docker ps - Lists running containers. Use -a to show all containers.
+   Usage: docker ps -a
+
+5. docker stop - Stops one or more running containers.
+   Usage: docker stop container_name_or_id
+
+6. docker rm - Removes one or more containers.
+   Usage: docker rm container_name_or_id
+
+7. docker rmi - Removes one or more images.
+   Usage: docker rmi image_name_or_id
+
+8. docker logs - Fetches the logs of a container.
+   Usage: docker logs container_name_or_id
+
+9. docker exec - Executes a command inside a running container.
+   Usage: docker exec -it container_name_or_id command
+
+10. docker pull - Pulls an image or a repository from a registry.
+    Usage: docker pull image_name:tag
+
+11. docker push - Pushes an image or a repository to a registry.
+    Usage: docker push image_name:tag
+
+12. docker network - Manages networks. Create, list, and remove networks.
+    Usage: docker network create network_name
+
+13. docker volume - Manages volumes. Create, list, and remove volumes.
+    Usage: docker volume create volume_name
+
+14. docker system prune - Removes unused data. Include -a for all unused images and --volumes to remove volumes.
+    Usage: docker system prune -a --volumes
+
+Additional Notes
+Interactive Mode (-it): When using docker exec or docker run to interact with a shell inside the container, the -it flags are essential for a proper interactive terminal.
+
+Detached Mode (-d): Use this flag with docker run to run the container in the background. This is useful for servers or applications that do not need to interact directly with the user.
+
+Port Mapping (-p): This is crucial when you want to access network services running inside the container from the host machine's network.
+
+Naming Containers (--name): Giving your containers a specific name makes it easier to manage them with other Docker commands.
