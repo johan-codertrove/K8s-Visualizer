@@ -1,8 +1,15 @@
 const http = require('http');
 const redis = require('redis');
+const { v4: uuidv4 } = require('uuid');
+
+const uniqueID = uuidv4();  // Generates a unique ID for each instance
+
+const host = process.env.REDIS_HOST || 'redis-service';
+
+console.log('process.env.REDIS_HOST: ', process.env.REDIS_HOST)
 
 const client = redis.createClient({
-    url: 'redis://redis:6379'
+    url: `redis://${host}:6379`
 });
 
 client.on('error', (err) => console.log('Redis Client Error', err));
@@ -12,7 +19,7 @@ const server = http.createServer(async (req, res) => {
         try {
             const reply = await client.incr('counter');
             res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end(`Hello world! This server has been visited ${reply} times.\n`);
+            res.end(`Hello world from node instance ${uniqueID}! This server (cluster) has been visited ${reply} times.\n`);
         } catch (err) {
             console.error('Redis error:', err);
             res.writeHead(500);

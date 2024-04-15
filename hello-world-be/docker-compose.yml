@@ -2,6 +2,7 @@ version: '3.8'
 services:
   app:
     build: .
+    image: hello-world-be:docker-compose-v2
     ports:
       - "3000:3000"
     volumes:
@@ -9,6 +10,6 @@ services:
       - "/usr/src/app/node_modules"
     command: ["npm", "run", "start:dev"]  
     depends_on:
-      - redis
-  redis:
+      - redis-service
+  redis-service:
     image: "redis:alpine"

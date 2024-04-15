@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app-deployment-stateful
+  labels:
+    app: node-app
+spec:
+  replicas: 3  # Adjust the number of replicas based on your needs
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+      - name: node-app
+        image: hello-world-be:docker-compose-v3
+        env:
+          - name: REDIS_HOST
+            value: "redis-service"
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000

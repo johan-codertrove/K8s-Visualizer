@@ -23,7 +23,7 @@
    Usage: docker logs container_name_or_id
 
 9. docker exec - Executes a command inside a running container.
-   Usage: docker exec -it container_name_or_id command
+   Usage: docker exec -it container_name_or_id [command] or [sh] 
 
 10. docker pull - Pulls an image or a repository from a registry.
     Usage: docker pull image_name:tag
