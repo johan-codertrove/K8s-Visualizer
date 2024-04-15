@@ -1,17 +1,36 @@
 const http = require('http');
+const redis = require('redis');
 
-// Counter to track the number of requests
-let requestCount = 0;
+const client = redis.createClient({
+    url: 'redis://redis:6379'
+});
 
-const server = http.createServer((req, res) => {
+client.on('error', (err) => console.log('Redis Client Error', err));
+
+const server = http.createServer(async (req, res) => {
     if (req.url === '/') {
-        requestCount++;
+        try {
+            const reply = await client.incr('counter');
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end(`Hello world! This server has been visited ${reply} times.\n`);
+        } catch (err) {
+            console.error('Redis error:', err);
+            res.writeHead(500);
+            res.end('Failed to connect to Redis');
+        }
+    } else {
+        res.writeHead(404);
+        res.end('Not Found');
     }
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end(`Hello world! This server has been visited ${requestCount} times.\n`);
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+
+// Start server only if Redis is connected
+client.connect().then(() => {
+    server.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}).catch((err) => {
+    console.error('Failed to connect to Redis:', err);
 });
