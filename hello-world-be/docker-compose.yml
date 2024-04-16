@@ -2,7 +2,7 @@ version: '3.8'
 services:
   app:
     build: .
-    image: hello-world-be:docker-compose-v2
+    image: hello-world-be:docker-compose-v3
     ports:
       - "3000:3000"
     volumes:

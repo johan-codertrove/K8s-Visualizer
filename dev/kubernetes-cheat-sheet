@@ -1,0 +1,71 @@
+Kubernetes Cheat Sheet
+
+1. Viewing Resources
+- List all pods in all namespaces:
+  kubectl get pods --all-namespaces
+
+- List all services in the current namespace:
+  kubectl get services
+
+- Describe a specific pod:
+  kubectl describe pod <pod-name>
+
+- Watch pods in real-time:
+  kubectl get pods -w
+
+2. Creating Resources
+- Create resource from a YAML file:
+  kubectl apply -f <filename.yaml>
+
+- Create multiple resources from a directory:
+  kubectl apply -f <directory/>
+
+3. Modifying Resources
+- Edit a resource:
+  kubectl edit <resource-type> <resource-name>
+
+- Scale a deployment:
+  kubectl scale deployment <deployment-name> --replicas=<number>
+
+- Set an environment variable on a deployment:
+  kubectl set env deployment/<deployment-name> <VAR_NAME>=<value>
+
+4. Deleting Resources
+- Delete a resource:
+  kubectl delete -f <filename.yaml>
+
+- Delete a pod, service, or deployment by name:
+  kubectl delete <resource-type> <resource-name>
+
+- Delete resources by label:
+  kubectl delete <resource-type> --selector=<label-key>=<label-value>
+
+5. Debugging and Logs
+- Fetch logs for a container in a pod:
+  kubectl logs <pod-name> [-c <container-name>]
+
+- Stream logs from a container in a pod:
+  kubectl logs -f <pod-name> [-c <container-name>]
+
+- Execute a command in a container:
+  kubectl exec -it <pod-name> -- <command>
+
+6. Cluster Management
+- Get cluster information:
+  kubectl cluster-info
+
+- List all nodes in the cluster:
+  kubectl get nodes
+
+- Drain a node for maintenance:
+  kubectl drain <node-name> --ignore-daemonsets
+
+- Uncordon a node:
+  kubectl uncordon <node-name>
+
+7. Miscellaneous
+- Port forward a local port to a port on the pod:
+  kubectl port-forward pod/<pod-name> <local-port>:<pod-port>
+
+- Get the API resources:
+  kubectl api-resources

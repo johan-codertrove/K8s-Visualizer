@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-app-deployment-stateful
+  name: node-app-deployment-redis
   labels:
     app: node-app
 spec:
@@ -16,10 +16,18 @@ spec:
     spec:
       containers:
       - name: node-app
-        image: hello-world-be:docker-compose-v3
+        image: hello-world-be:kubernetes-0.0.2
         env:
           - name: REDIS_HOST
-            value: "redis-service"
+            value: "redis-0.redis-service.default.svc.cluster.local"
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP                         
         imagePullPolicy: Never
         ports:
         - containerPort: 3000
