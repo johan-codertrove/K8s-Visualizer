@@ -8,7 +8,7 @@ Kubernetes Cheat Sheet
   kubectl get services
 
 - Describe a specific pod:
-  kubectl describe pod <pod-name>
+  kubectl describe pod <pod-name>l
 
 - Watch pods in real-time:
   kubectl get pods -w
