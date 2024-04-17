@@ -17,8 +17,15 @@ const server = http.createServer(async (req, res) => {
     if (req.url === '/') {
         try {
             const reply = await client.incr('counter');
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end(`Hello world! from node instance: ${podName} at IP: ${podIp}, This node has been visited ${++requestCount} times and the cluster has been visited a total of ${reply} times.\n`);
+            const responseData = {
+                message: 'Hello world!',
+                nodeInstance: podName,
+                ip: podIp,
+                localVisits: ++requestCount,
+                totalVisits: reply
+            };
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(responseData))
         } catch (err) {
             console.error('Redis error:', err);
             res.writeHead(500);

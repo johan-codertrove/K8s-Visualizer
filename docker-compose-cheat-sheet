@@ -1,0 +1,59 @@
+Docker Compose Cheat Sheet
+
+1. docker-compose up - Builds, (re)creates, starts, and attaches to containers for a service.
+   Usage: docker-compose up
+   Options: -d (detached), --build (force build), --no-deps (ignore dependencies)
+
+2. docker-compose down - Stops containers and removes containers, networks, volumes, and images created by up.
+   Usage: docker-compose down
+   Options: --volumes (remove data volumes), --rmi (remove images)
+
+3. docker-compose build - Builds or rebuilds services defined in a docker-compose.yml file.
+   Usage: docker-compose build
+   Options: --no-cache (do not use cache when building), --parallel (build images in parallel)
+
+4. docker-compose logs - View output from containers.
+   Usage: docker-compose logs
+   Options: -f (follow log output), --tail="all" (number of lines to show from the end of the logs)
+
+5. docker-compose stop - Stops running containers without removing them.
+   Usage: docker-compose stop
+   Options: service_name (stop one or more specific services)
+
+6. docker-compose start - Starts existing containers for a service.
+   Usage: docker-compose start
+   Options: service_name (start one or more specific services)
+
+7. docker-compose restart - Restarts all stopped and running services.
+   Usage: docker-compose restart
+   Options: service_name (restart one or more specific services)
+
+8. docker-compose exec - Execute a command in a running container.
+   Usage: docker-compose exec
+   Options: -it (interactive), service_name command (e.g., bash)
+
+9. docker-compose rm - Removes stopped service containers.
+   Usage: docker-compose rm
+   Options: -f (force), service_name (remove one or more specific services)
+
+10. docker-compose pull - Pulls an image associated with a service defined in a docker-compose.yml.
+    Usage: docker-compose pull
+    Options: --parallel (pull multiple images in parallel)
+
+11. docker-compose push - Pushes images for services to their respective registry/repository.
+    Usage: docker-compose push
+    Options: service_name (push one or more specific services)
+
+12. docker-compose config - Validates and view the Compose file.
+    Usage: docker-compose config
+
+13. docker-compose pause - Pauses running containers of a service.
+    Usage: docker-compose pause
+
+14. docker-compose unpause - Unpauses paused containers of a service.
+    Usage: docker-compose unpause
+
+Additional Notes:
+- File Specification: By default, docker-compose commands look for a docker-compose.yml file in the current directory. Specify an alternate compose file using -f or --file.
+- Service Management: Most commands allow you to specify one or more services so you can target specific parts of your setup.
+- Environment Variables: Set variables in the shell environment or use an .env file in the same directory as your compose file to influence the project configuration.
