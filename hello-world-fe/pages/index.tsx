@@ -14,7 +14,7 @@ interface HomeProps {
 
 export default function Home(props: HomeProps) {
   return (
-    <main className="p-5 space-y-4">
+    <main className="p-5 space-y-6">
       <h1 className="text-blue-500 text-lg font-bold">Cluster Information</h1>
       <div className="grid grid-cols-3 gap-6">
         {props.nodes.map((node, index) => (
@@ -25,17 +25,20 @@ export default function Home(props: HomeProps) {
           </div>
         ))}
       </div>
-      <p className="font-medium">Total cluster visits: <strong>{props.totalVisits}</strong></p>
-      <button onClick={() => window.location.reload()} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300">
-        Refresh Data
-      </button>
+      <div className="mb-0">
+        <p className="font-medium mb-1">Total cluster visits: <strong>{props.totalVisits}</strong></p>
+        <button onClick={() => window.location.reload()} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300">
+          Connect to Cluster
+        </button>
+      </div>
     </main>
   );
 }
 
+
 export const getServerSideProps: GetServerSideProps = async () => {
   const backendHost = process.env.BACKEND_HOST || 'http://localhost'; // Use the environment variable
-  const backendPort = process.env.BACKEND_PORT || '3001'; // Use the environment variable
+  const backendPort = process.env.BACKEND_PORT || '30001'; // Use the environment variable
   try {
     const response = await fetch(`${backendHost}:${backendPort}`);
     const data = await response.json();
