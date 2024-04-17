@@ -24,9 +24,10 @@ export default function Home(props: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const backendUrl = process.env.BACKEND_URL || 'http://localhost:3001'; // Use the environment variable
+  const backendHost = process.env.BACKEND_HOST || 'http://localhost'; // Use the environment variable
+  const backendPort = process.env.BACKEND_PORT || '3001'; // Use the environment variable
   try {
-    const response = await fetch(`${backendUrl}`);
+    const response = await fetch(`${backendHost}:${backendPort}`);
     const data = await response.json(); // Assuming the JSON structure matches the HomeProps interface
 
     return {

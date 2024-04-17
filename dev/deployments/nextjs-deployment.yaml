@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextjs-deployment
+  labels:
+    app: nextjs-app
+spec:
+  replicas: 2  # Adjust the number of replicas based on your needs
+  selector:
+    matchLabels:
+      app: nextjs-app
+  template:
+    metadata:
+      labels:
+        app: nextjs-app
+    spec:
+      containers:
+      - name: nextjs-app
+        image: hello-world-fe:kubernetes-0.0.1
+        env:
+          - name: BACKEND_HOST
+            value: "http://node-app-service"
+          - name: BACKEND_PORT
+            value: "3000"                    
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000

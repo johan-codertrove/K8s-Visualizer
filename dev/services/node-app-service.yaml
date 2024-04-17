@@ -3,10 +3,9 @@ kind: Service
 metadata:
   name: node-app-service
 spec:
-  type: NodePort  # Exposes the service on each Node’s IP at a static port
+  ports:
+  - port: 3000
+    targetPort: 3000
   selector:
     app: node-app
-  ports:
-    - protocol: TCP
-      port: 3000
-      nodePort: 30000
+  type: ClusterIP 
