@@ -19,7 +19,7 @@ export default function Home(props: HomeProps) {
       <div className="grid grid-cols-3 gap-6">
         {props.nodes.map((node, index) => (
           <div key={index} className={`p-4 rounded-lg shadow ${node.isActive ? 'animate-bounce bg-blue-400' : 'bg-gray-200'} space-y-2`}>
-            <p>Node instance: <strong>{node.nodeInstance.replace('node-app-deployment-redis-', '')}</strong></p>
+            <p>Node instance: <strong>{node.nodeInstance.replace('node-app-deployment-', '')}</strong></p>
             <p>IP Address: <strong>{node.ip}</strong></p>
             <p>Local visits: <strong>{node.localVisits}</strong></p>
           </div>
