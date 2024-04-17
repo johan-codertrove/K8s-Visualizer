@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: node-app
-        image: hello-world-be:kubernetes-0.0.5
+        image: hello-world-be:kubernetes-0.0.6
         env:
           - name: REDIS_HOST
             value: "redis-0.redis-service.default.svc.cluster.local"

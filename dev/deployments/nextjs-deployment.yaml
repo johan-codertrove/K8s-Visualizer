@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nextjs-app
-        image: hello-world-fe:kubernetes-0.0.1
+        image: hello-world-fe:kubernetes-0.0.3
         env:
           - name: BACKEND_HOST
             value: "http://node-app-service"

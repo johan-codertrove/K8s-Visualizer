@@ -1,22 +1,32 @@
 import { GetServerSideProps } from 'next';
 
-interface HomeProps {
-  message: string;
+interface NodeInfo {
   nodeInstance: string;
   ip: string;
   localVisits: number;
+  isActive: boolean; // Flag to indicate if this is the node that handled the last request
+}
+
+interface HomeProps {
+  nodes: NodeInfo[];
   totalVisits: number;
 }
 
 export default function Home(props: HomeProps) {
   return (
-    <main className="p-5">
-      <h1 className="text-blue-500 text-lg font-bold">{props.message}</h1>
-      <p>Node instance: <strong className="font-medium">{props.nodeInstance}</strong></p>
-      <p>IP Address: <strong className="font-medium">{props.ip}</strong></p>
-      <p>Local visits: <strong className="font-medium">{props.localVisits}</strong></p>
-      <p>Total cluster visits: <strong className="font-medium">{props.totalVisits}</strong></p>
-      <button onClick={() => window.location.reload()} className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+    <main className="p-5 space-y-4">
+      <h1 className="text-blue-500 text-lg font-bold">Cluster Information</h1>
+      <div className="grid grid-cols-3 gap-6">
+        {props.nodes.map((node, index) => (
+          <div key={index} className={`p-4 rounded-lg shadow ${node.isActive ? 'animate-bounce bg-blue-400' : 'bg-gray-200'} space-y-2`}>
+            <p>Node instance: <strong>{node.nodeInstance.replace('node-app-deployment-redis-', '')}</strong></p>
+            <p>IP Address: <strong>{node.ip}</strong></p>
+            <p>Local visits: <strong>{node.localVisits}</strong></p>
+          </div>
+        ))}
+      </div>
+      <p className="font-medium">Total cluster visits: <strong>{props.totalVisits}</strong></p>
+      <button onClick={() => window.location.reload()} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300">
         Refresh Data
       </button>
     </main>
@@ -28,8 +38,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const backendPort = process.env.BACKEND_PORT || '3001'; // Use the environment variable
   try {
     const response = await fetch(`${backendHost}:${backendPort}`);
-    const data = await response.json(); // Assuming the JSON structure matches the HomeProps interface
-
+    const data = await response.json();
     return {
       props: data
     };

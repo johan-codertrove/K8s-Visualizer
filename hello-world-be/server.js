@@ -11,29 +11,42 @@ const client = redis.createClient({
 
 client.on('error', (err) => console.log('Redis Client Error', err));
 
-let requestCount = 0;
-
 const server = http.createServer(async (req, res) => {
     if (req.url === '/') {
         try {
-            const reply = await client.incr('counter');
+            // Increment the global counter
+            const totalVisits = await client.incr('globalCounter');
+            
+            await client.incr(`node:${podName}:visits`);
+
+            // Fetch all nodes data
+            const keys = await client.keys('node:*:visits');
+            const nodes = await Promise.all(keys.map(async key => {
+                const localCount = await client.get(key);
+                const nodeName = key.split(':')[1]; // Assuming the key format is 'node:{podName}:visits'
+                return {
+                    nodeInstance: nodeName,
+                    ip: nodeName === podName ? podIp : 'unknown', // Only the current node's IP is known
+                    localVisits: parseInt(localCount, 10),
+                    isActive: nodeName === podName // Mark the current node as active
+                };
+            }));
+
             const responseData = {
-                message: 'Hello world!',
-                nodeInstance: podName,
-                ip: podIp,
-                localVisits: ++requestCount,
-                totalVisits: reply
+                nodes: nodes,
+                totalVisits: totalVisits
             };
+
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(responseData))
+            res.end(JSON.stringify(responseData));
         } catch (err) {
             console.error('Redis error:', err);
-            res.writeHead(500);
-            res.end('Failed to connect to Redis');
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Failed to connect to Redis' }));
         }
     } else {
-        res.writeHead(404);
-        res.end('Not Found');
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Not Found' }));
     }
 });
 
